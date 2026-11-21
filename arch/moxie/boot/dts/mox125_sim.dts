@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * The mox125 core in a simulator: RAM, a 16550 UART, and the simple
+ * interrupt controller and timer of the simulated board.
+ */
+
+/dts-v1/;
+
+/ {
+	compatible = "moxie,mox125-sim";
+	#address-cells = <1>;
+	#size-cells = <1>;
+	interrupt-parent = <&pic>;
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	chosen {
+		bootargs = "earlycon console=ttyS0,115200";
+		stdout-path = "serial0:115200";
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x00000000 0x04000000>;
+	};
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "moxie,mox125";
+			reg = <0>;
+			clock-frequency = <50000000>;
+		};
+	};
+
+	clk: clock {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <50000000>;
+	};
+
+	soc {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		pic: interrupt-controller@f0000020 {
+			compatible = "moxie,sim-pic";
+			reg = <0xf0000020 0x8>;
+			interrupt-controller;
+			#interrupt-cells = <1>;
+		};
+
+		timer@f0000030 {
+			compatible = "moxie,sim-timer";
+			reg = <0xf0000030 0x10>;
+			interrupts = <0>;
+			clocks = <&clk>;
+		};
+
+		uart0: serial@f0000100 {
+			compatible = "ns16550a";
+			reg = <0xf0000100 0x20>;
+			reg-shift = <2>;
+			interrupts = <1>;
+			clock-frequency = <1843200>;
+		};
+	};
+};

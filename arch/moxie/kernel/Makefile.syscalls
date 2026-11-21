@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-2.0
+
+# A new architecture: nothing but the current system calls.
+syscall_abis_32 +=

@@ -1,0 +1,70 @@
+# SPDX-License-Identifier: GPL-2.0
+#
+# For a description of the syntax of this configuration file,
+# see Documentation/kbuild/kconfig-language.rst.
+#
+
+config MOXIE
+	def_bool y
+	select ARCH_32BIT_OFF_T
+	select GENERIC_BUILTIN_DTB
+	select COMMON_CLK
+	select OF
+	select OF_EARLY_FLATTREE
+	select IRQ_DOMAIN
+	select SPARSE_IRQ
+	select GENERIC_IRQ_CHIP
+	select GENERIC_IRQ_PROBE
+	select GENERIC_IRQ_SHOW
+	select GENERIC_CPU_DEVICES
+	select HAVE_UID16
+	select HAVE_PAGE_SIZE_4KB
+	select GENERIC_ATOMIC64
+	select GENERIC_LIB_ASHLDI3
+	select GENERIC_LIB_ASHRDI3
+	select GENERIC_LIB_LSHRDI3
+	select GENERIC_LIB_MULDI3
+	select GENERIC_LIB_UCMPDI2
+	select GENERIC_LIB_CMPDI2
+	select CPU_NO_EFFICIENT_FFS
+	select GENERIC_IRQ_MULTI_HANDLER
+	select MMU_GATHER_NO_RANGE if MMU
+	select TRACE_IRQFLAGS_SUPPORT
+	select TIMER_OF
+	select LOCK_MM_AND_FIND_VMA
+	select GENERIC_STRNCPY_FROM_USER
+	select GENERIC_STRNLEN_USER
+
+config CPU_BIG_ENDIAN
+	def_bool y
+
+config MMU
+	def_bool y
+
+config GENERIC_HWEIGHT
+	def_bool y
+
+config NO_IOPORT_MAP
+	def_bool y
+
+config GENERIC_CSUM
+	def_bool y
+
+menu "Processor type and features"
+
+config BUILTIN_DTB_NAME
+	string "Builtin DTB"
+	default "mox125_sim"
+
+source "kernel/Kconfig.hz"
+
+config CMDLINE
+	string "Default kernel command string"
+	default ""
+	help
+	  On some architectures there is currently no way for the boot loader
+	  to pass arguments to the kernel. For these architectures, you should
+	  supply some command-line options at build time by entering them
+	  here.
+
+endmenu
